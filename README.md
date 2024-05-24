@@ -46,8 +46,7 @@ The paticipants are required to submit their prediction on `nuScenes OpenOcc tes
 - In order to check the compliance, we will ask the participants to provide technical reports to the challenge committee and the participant will be asked to provide a public talk about the method after winning the award.
 - Every submission provides method information. We encourage publishing code, but do not make it a requirement.
 - Each team can have at most one account on the evaluation server. Users that create multiple accounts to circumvent the rules will be excluded from the challenge.
-- Each team can submit at most three results during the challenge. 
-- Faulty submissions that return an error on HuggingFace do not count towards the submission limit.
+- Each team can submit at most three results per day during the challenge. 
 - Any attempt to circumvent these rules will result in a permanent ban of the team or company from the challenge.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
