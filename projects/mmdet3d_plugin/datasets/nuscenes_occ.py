@@ -255,12 +255,12 @@ class NuSceneOcc(NuScenesDataset):
             result_dict.update({token: sample_dict})
 
         final_submission_dict = {
-            'method': '',
-            'team': '',
-            'authors': [''],
-            'e-mail': '',
-            'institution / company': '',
-            'country / region': '',
+            'method': 'bevformer_base',
+            'team': 'kalki',
+            'authors': ['Sai P'],
+            'e-mail': 'saiprakashreddyc@gmail.com',
+            'institution / company': 'Individual',
+            'country / region': 'US',
             'results': result_dict
         }
 
