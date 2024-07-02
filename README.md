@@ -11,49 +11,33 @@
 > - Official website: :globe_with_meridians: [AGC2024](https://opendrivelab.com/challenge2024/#occupancy_and_flow)
 > - Evaluation server: :hugs: [Hugging Face](https://huggingface.co/spaces/AGC2024-S/occupancy-and-flow-2024)
 
+
 ## Introduction
 
 Understanding the 3D surroundings including the background stuffs and foreground objects is important for autonomous driving. In the traditional 3D object detection task, a foreground object is represented by the 3D bounding box. However, the geometrical shape of the object is complex, which can not be represented by a simple 3D box, and the perception of the background stuffs is absent. The goal of this task is to predict the 3D occupancy of the scene. In this task, we provide a large-scale occupancy benchmark based on the nuScenes dataset. The benchmark is a voxelized representation of the 3D space, and the occupancy state and semantics of the voxel in 3D space are jointly estimated in this task. The complexity of this task lies in the dense prediction of 3D space given the surround-view images.
 
-## News
-> :fire: We are organizing a sibling track in `China3DV`. Please check the [competition website](http://www.csig3dv.net/2024/competition.html) and [github repo](https://github.com/OpenDriveLab/LightwheelOcc/blob/main/docs/challenge_china3dv.md).  
-> :ice_cube: We release a 3D occupancy synthetic dataset `LightwheelOcc`, with dense **occupancy** and **depth** label and realistic sensor configuration simulating nuScenes dataset. [Check it out](https://github.com/OpenDriveLab/LightwheelOcc)!
+# Model Zoo
 
-- **`2024/04/09`** We release the [technical report](https://arxiv.org/abs/2312.17118) of the new RayIoU metric, as well as a new occupancy method: [SparseOcc](https://github.com/MCG-NJU/SparseOcc).
-- **`2024/03/14`** We release a new version (`openocc_v2.1`) of the occupancy ground-truth, including some bug fixes regarding the occupancy flow. **Delete the old version and download the new one!** Please refer to [getting_started](docs/getting_started.md) for details.
-- **`2024/03/01`** The challenge begins.
+| Method | OccScore | RayIOU |
+| -------- | -------- | -------- |
+| BEVFormer | Row1     | Row1     |
+| SparseBEV    | Row2     | Row2     |
+| SparseBEV with InterImage     | Row3     | Row3     |
 
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [News](#news)
+- [Model Zoo](#news)
 - [Task Definition](#task-definition)
 - [Evaluation Metrics](#evaluation-metrics)
 - [OpenOcc Dataset](#openocc-dataset)
-- [Baseline](#baseline)
-- [Submission](#submission)
-- [License and Citation](#license-and-citation)
+- [References](#references)
 
 ## Task Definition
 
 Given images from multiple cameras, the goal is to predict the semantics and flow of each voxel grid in the scene.
-The paticipants are required to submit their prediction on `nuScenes OpenOcc test` set.
-
-### Rules for Occupancy and Flow Challenge
-
-- We allow using annotations provided in the nuScenes dataset. During inference, the input modality of the model should be camera only. 
-- No future frame is allowed during inference.
-- In order to check the compliance, we will ask the participants to provide technical reports to the challenge committee and the participant will be asked to provide a public talk about the method after winning the award.
-- Every submission provides method information. We encourage publishing code, but do not make it a requirement.
-- Each team can have at most one account on the evaluation server. Users that create multiple accounts to circumvent the rules will be excluded from the challenge.
-- Each team can submit at most three results per day during the challenge. 
-- Any attempt to circumvent these rules will result in a permanent ban of the team or company from the challenge.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Evaluation Metrics
-
-Leaderboard ranking for this challenge is by the **Occupancy Score**. It consists of two parts: **Ray-based mIoU**, and absolute velocity error for occupancy flow.
 
 The implementation is here: [projects/mmdet3d_plugin/datasets/ray_metrics.py](https://github.com/OpenDriveLab/OccNet/blob/challenge/projects/mmdet3d_plugin/datasets/ray_metrics.py)
 
@@ -156,71 +140,8 @@ nuscenes
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## Baseline
 
-We provide a baseline model based on [BEVFormer](https://github.com/fundamentalvision/BEVFormer).
-
-Please refer to [getting_started](docs/getting_started.md) for details.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-## Submission
-
-### Submission format
-
-The submission must be a single `dict` with the following structure:
-
-```
-submission = {
-    'method': '',                           <str> -- name of the method
-    'team': '',                             <str> -- name of the team, identical to the Google Form
-    'authors': ['']                         <list> -- list of str, authors
-    'e-mail': '',                           <str> -- e-mail address
-    'institution / company': '',            <str> -- institution or company
-    'country / region': '',                 <str> -- country or region, checked by iso3166*
-    'results': {
-        [token]: {                          <str> -- frame (sample) token
-            'pcd_cls'                       <np.ndarray> [N] -- predicted class ID, np.uint8,
-            'pcd_dist'                      <np.ndarray> [N] -- predicted depth, np.float16,
-            'pcd_flow'                      <np.ndarray> [N, 2] -- predicted flow, np.float16,
-        },
-        ...
-    }
-}
-```
-
-Below is an example of how to save the submission:
-
-``` python
-import pickle, gzip
-
-with gzip.open('submission.gz', 'wb', compresslevel=9) as f:
-    pickle.dump(submission, f, protocol=pickle.HIGHEST_PROTOCOL)
-```
-
-We provide example scripts based on mmdetection3d to generate the submission file, please refer to [baseline](docs/getting_started.md) for details.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-### Working with your own codebase
-
-We understand that many participants may use your own codebases. Here, we provide a simple standlone package that converts your occupancy predictions to the submission format. Please follows the steps below:
-
-1. Save the prediction results on `nuScenes OpenOcc val` locally, in the same format as the occupancy ground truth.
-2. Perform ray projection locally and save the projection results.
-```
-cd tools/ray_iou
-python ray_casting.py --pred-root your_prediction
-```
-3. Test whether the evaluation on `nuScenes OpenOcc val` meets expectations locally.
-```
-python metric.py --pred output/my_pred_pcd.gz --gt output/nuscenes_infos_val_occ_pcd.gz
-```
-4. Save and project the prediction results of `nuScenes OpenOcc test` according to steps 1 and 2, and upload them to the competition server.
-
-## License and Citation
-
-If you use the challenge dataset in your paper, please consider citing OccNet with the following BibTex:
+## References
 
 ```bibtex
 @article{sima2023_occnet,
@@ -232,8 +153,6 @@ If you use the challenge dataset in your paper, please consider citing OccNet wi
     primaryClass={cs.CV}
 }
 ```
-
-If you use RayIoU as the evaluation metric, please consider citing the following BibTex:
 
 ```bibtex
 @misc{liu2024fully,
