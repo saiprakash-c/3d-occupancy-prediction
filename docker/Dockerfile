@@ -30,3 +30,5 @@ RUN git clone https://github.com/open-mmlab/mmdetection3d.git -b v0.17.0 /mmdete
 WORKDIR /mmdetection3d
 RUN pip install -r requirements/build.txt
 RUN pip install --no-cache-dir -e .
+# downgrade yapf, if not mmcv Config gives an error
+RUN pip install yapf==0.30.0
