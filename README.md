@@ -2,6 +2,12 @@
 
 # 3D occupancy Challenge
 
+<img src="./figs/occupancy.gif" width="600px">
+
+</div>
+
+<div align="left">
+
 ## Table of Contents
 
 - [Introduction](#introduction)
@@ -17,11 +23,23 @@ Understanding the 3D surroundings including the background stuffs and foreground
 
 # Model Zoo
 
-| Method                                     | Backbone | Config | RayIOU       | Weights       | FPS on A100 |
-|--------------------------------------------|----------|--------|--------------|---------------|--------|
-| BEVFormer                                  |  ResNet50  | [config](https://github.com/saiprakash-c/3d-occupancy-prediction/blob/challenge/projects/configs/bevformer/bevformer_base_occ_pretrained.py)       | 0.285        |               |  ~3    |
-| SparseBEV                                  | ResNet50   | [config](https://github.com/saiprakash-c/SparseOcc/blob/main/configs/r50_nuimg_704x256_8f_openocc.py) | 0.3312       |               | ~17 |
-| SparseBEV | FlashInternImage-T |        | In progress  | In progress   |        |
+The following table summarizes the performance metrics of different models tested on the validation dataset of Nuscenes dataset for 3d occupancy prediction.
+
+<div align="center">
+
+| Method                                     | Backbone | Config | RayIOU       | Weights       | Memory | FPS on A100 |
+|--------------------------------------------|----------|--------|--------------|---------------|--------|-------|
+| BEVFormer                                  |  ResNet50  | [config](https://github.com/saiprakash-c/3d-occupancy-prediction/blob/challenge/projects/configs/bevformer/bevformer_base_occ_pretrained.py)       | 0.285        |               |  15.8GB | ~3    |
+| SparseBEV                                  | ResNet50   | [config](https://github.com/saiprakash-c/SparseOcc/blob/main/configs/r50_nuimg_704x256_8f_openocc.py) | 0.3312       | [weights](https://github.com/saiprakash-c/SparseOcc/blob/60d2c5ee930eeb1c3eb0f778b9fdd951727a88f4/configs/r50_nuimg_704x256_8f_openocc.py) | 20.7GB | ~17 |
+| SparseBEV | FlashInternImage-T |  In progress |   |   |        | |
+
+<div align="left">
+
+## Testing
+
+The installation instructions in the original repositories have dependency issues. Instead, pull the the docker `saiprakashc/mmdet3d-image:v0.17.0-2` for testing BEVFormer and the docker `saiprakashc/mmdet3d-image:v1.0.0rc6` for testing SparseOcc. The docker images exist in docker hub and they work right out of the box. 
+
+For setting up the data, see [data](#openocc-dataset) section.
 
 ## Task Definition
 
@@ -70,12 +88,6 @@ OccScore = mIoU * 0.9 + max(1 - mAVE, 0.0) * 0.1
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## OpenOcc Dataset
-
-<div align="center">
-
-<img src="./figs/occupancy.gif" width="600px">
-
-</div>
 
 ### Basic Information
 
@@ -130,6 +142,11 @@ nuscenes
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## ToDo
+
+- [ ] Train SparseBEV with FlashInternImage-T
+- [ ] Evaluate FB-Occ
+- [ ] Implement flow predicter for the best model
 
 ## References
 
@@ -155,6 +172,6 @@ nuscenes
 }
 ```
 
-This dataset is under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) license. Before using the dataset, you should register on the website and agree to the terms of use of the [nuScenes](https://www.nuscenes.org/nuscenes).  All code within this repository is under [Apache 2.0 License](./LICENSE).
+This dataset is under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) license. Before using the dataset, you should register on the website and agree to the terms of use of the [nuScenes](https://www.nuscenes.org/nuscenes). 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
