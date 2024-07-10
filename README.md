@@ -1,6 +1,6 @@
 <div id="top" align="center">
 
-# Occupancy and Flow Challenge
+# 3D occupancy Challenge
 
 
 ## Introduction
@@ -9,11 +9,11 @@ Understanding the 3D surroundings including the background stuffs and foreground
 
 # Model Zoo
 
-| Method | Docker| Config | RayIOU | weights
-| -------- | -------- | -------- |
-| BEVFormer | | | 0.285 | |
-| SparseBEV | | | 0.3312 | |
-| SparseBEV with FlashInternImage as backbone | | | (In progress) | (In progress) |
+| Method                                     | Backbone | Config | RayIOU       | Weights       | Docker |
+|--------------------------------------------|----------|--------|--------------|---------------|--------|
+| BEVFormer                                  |  ResNet50  |        | 0.285        |               |        |
+| SparseBEV                                  | ResNet50   |        | 0.3312       |               |        |
+| SparseBEV | FlashInternImage-T |        | In progress  | In progress   |        |
 
 ## Table of Contents
 
