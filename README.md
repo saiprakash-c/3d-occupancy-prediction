@@ -2,15 +2,6 @@
 
 # Occupancy and Flow Challenge
 
-**The tutorial of `Occupancy and Flow` track for [CVPR 2024 Autonomous Grand Challenge](https://opendrivelab.com/challenge2024).**
-
-<img src="./figs/occ_banner.jpeg" width="900px">
-
-</div>
-
-> - Official website: :globe_with_meridians: [AGC2024](https://opendrivelab.com/challenge2024/#occupancy_and_flow)
-> - Evaluation server: :hugs: [Hugging Face](https://huggingface.co/spaces/AGC2024-S/occupancy-and-flow-2024)
-
 
 ## Introduction
 
@@ -18,11 +9,11 @@ Understanding the 3D surroundings including the background stuffs and foreground
 
 # Model Zoo
 
-| Method | OccScore | RayIOU |
+| Method | Docker| Config | RayIOU | weights
 | -------- | -------- | -------- |
-| BEVFormer | Row1     | Row1     |
-| SparseBEV    | Row2     | Row2     |
-| SparseBEV with InterImage     | Row3     | Row3     |
+| BEVFormer | | | 0.285 | |
+| SparseBEV | | | 0.3312 | |
+| SparseBEV with FlashInternImage as backbone | | | (In progress) | (In progress) |
 
 ## Table of Contents
 
