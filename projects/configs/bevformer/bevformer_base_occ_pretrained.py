@@ -229,7 +229,7 @@ total_epochs = 24
 evaluation = dict(interval=24, pipeline=test_pipeline)
 
 runner = dict(type='EpochBasedRunner', max_epochs=total_epochs)
-load_from = 'work_dirs/bevformer_base_occ/epoch_24_prev.pth'
+load_from = 'checkpoints/bevformer_r50_24e.pth'
 log_config = dict(
     interval=50,
     hooks=[
