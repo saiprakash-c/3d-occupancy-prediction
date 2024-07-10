@@ -1,0 +1,3 @@
+[submodule "sparse_occ"]
+	path = sparse_occ
+	url = https://github.com/saiprakash-c/SparseOcc.git
