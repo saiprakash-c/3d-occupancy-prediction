@@ -2,6 +2,14 @@
 
 # 3D occupancy Challenge
 
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Model Zoo](#model-zoo)
+- [Task Definition](#task-definition)
+- [Evaluation Metrics](#evaluation-metrics)
+- [OpenOcc Dataset](#openocc-dataset)
+- [References](#references)
 
 ## Introduction
 
@@ -9,20 +17,11 @@ Understanding the 3D surroundings including the background stuffs and foreground
 
 # Model Zoo
 
-| Method                                     | Backbone | Config | RayIOU       | Weights       | Docker |
+| Method                                     | Backbone | Config | RayIOU       | Weights       | FPS on A100 |
 |--------------------------------------------|----------|--------|--------------|---------------|--------|
-| BEVFormer                                  |  ResNet50  |        | 0.285        |               |        |
-| SparseBEV                                  | ResNet50   |        | 0.3312       |               |        |
+| BEVFormer                                  |  ResNet50  | [config](https://github.com/saiprakash-c/3d-occupancy-prediction/blob/challenge/projects/configs/bevformer/bevformer_base_occ_pretrained.py)       | 0.285        |               |  ~3    |
+| SparseBEV                                  | ResNet50   | [config](https://github.com/saiprakash-c/SparseOcc/blob/main/configs/r50_nuimg_704x256_8f_openocc.py) | 0.3312       |               | ~17 |
 | SparseBEV | FlashInternImage-T |        | In progress  | In progress   |        |
-
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Model Zoo](#news)
-- [Task Definition](#task-definition)
-- [Evaluation Metrics](#evaluation-metrics)
-- [OpenOcc Dataset](#openocc-dataset)
-- [References](#references)
 
 ## Task Definition
 
