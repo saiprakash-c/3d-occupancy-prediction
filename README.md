@@ -21,6 +21,48 @@
 
 Understanding the 3D surroundings including the background stuffs and foreground objects is important for autonomous driving. In the traditional 3D object detection task, a foreground object is represented by the 3D bounding box. However, the geometrical shape of the object is complex, which can not be represented by a simple 3D box, and the perception of the background stuffs is absent. The goal of this task is to predict the 3D occupancy of the scene. In this task, we provide a large-scale occupancy benchmark based on the nuScenes dataset. The benchmark is a voxelized representation of the 3D space, and the occupancy state and semantics of the voxel in 3D space are jointly estimated in this task. The complexity of this task lies in the dense prediction of 3D space given the surround-view images.
 
+# Description of methods implemented
+
+## [BEVFormer](https://arxiv.org/pdf/2203.17270)
+
+<div id="top" align="center">
+<img src="./figs/bev_former.png" width="600px">
+<p> BEV Former </p>
+
+</div>
+
+BEVFormer is a camera only transformer-based model for multi-task learning in autonomous driving such as 3D object detection, and occupancy prediction using multi-view images. It has 6 transformer blocks as shown in the figure. It works on the discretized 2D bird's eye view gird. The main innovations here are the following
+
+1. Learnable queries for each grid cell in BEV space
+2. Temporal self attention with BEV features at previous timestamp
+3. Spatial cross attention with multiscale multiview image features
+
+The transformer encoder takes as input the learnable queries for each grid cell in the BEV space, the BEV grid features from previous timestamp and the multiview image features at timestamp t. It outputs features at each cell of the BEV grid for timestamp t which then is fed to a segmentation head to output class probabilities for each cell. 
+
+Cross Entropy loss is used for training. ResNet-50 is used as image backbone along with FPN.
+
+## [SparseOcc]()
+
+<div id="top" align="center">
+<img src="./figs/sparse_voxel_decoder.png" width="600px">
+<p> Sparse Voxel Decoder </p>
+</div>
+
+<div id="top" align="center">
+<img src="./figs/sparse_occ.png" width="600px">
+<p> Full Architecture </p>
+</div>
+
+Sparseocc is a recent camera only transformer-based model for specifically 3D occupancy prediction. It has faster inference time as it is a fully sparse occupancy network. It is based on the idea that ~90% of the voxels are free in a given scene and dense occupancy prediction is not necessary. It mainly consists of two blocks
+
+1. Sparse Voxel decoder
+2. Mask Transformer
+
+The job of Sparse voxel decoder is to predict the locations of occupied voxels in the scene. In other words, it constructs a class agnostic sparse occupancy space. It starts from a a set of coarse voxel queries equally distributed in the 3D space. In each layer, self attention and cross attention with multi-scale multi-view image features are performed. Then the voxels are upsampled by 2x, occupancy of each voxel is estimated and pruning is performed to remove free voxels. This is repeated for multiple layers and the at the end, voxel embeddings are stored to feed to the Mask Transformer layer. Binary Cross Entropy loss is used for supervision.
+
+Mask Transformer is inspired from Mask2Former which predicts binary masks for each class label. It starts with N semantic query context vectors. These are passed to a transformer based model consisting of several layers. Each layer contains self attention and spatial cross attention with multiscale multiview images. At the end of each layer, voxel embeddings from Sparse voxel decoder and context vectors are used to predict the binary masks which are then passed to the next layer. At the end of the model, we predict class labels from context vectors, binary masks from voxel embeddings and context vectors. These are then supervised with ground truth occupancy labels. Dice loss and Binary cross entropy loss are used for mask prediction. Cross entropy loss is used for class label prediction. 
+
+
 # Model Zoo
 
 The following table summarizes the performance metrics of different models tested on the validation dataset of Nuscenes dataset for 3d occupancy prediction.
@@ -171,6 +213,14 @@ nuscenes
     primaryClass={cs.CV}
 }
 ```
+
+```
+@article{li2022bevformer,
+  title={BEVFormer: Learning Bird’s-Eye-View Representation from Multi-Camera Images via Spatiotemporal Transformers},
+  author={Li, Zhiqi and Wang, Wenhai and Li, Hongyang and Xie, Enze and Sima, Chonghao and Lu, Tong and Qiao, Yu and Dai, Jifeng}
+  journal={arXiv preprint arXiv:2203.17270},
+  year={2022}
+}
 
 This dataset is under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) license. Before using the dataset, you should register on the website and agree to the terms of use of the [nuScenes](https://www.nuscenes.org/nuscenes). 
 
