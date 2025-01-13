@@ -72,7 +72,7 @@ The following table summarizes the performance metrics of different models teste
 | Method                                     | Backbone | Config | RayIOU       | Weights       | Memory | FPS on A100 |
 |--------------------------------------------|----------|--------|--------------|---------------|--------|-------|
 | BEVFormer                                  |  ResNet50  | [config](https://github.com/saiprakash-c/3d-occupancy-prediction/blob/challenge/projects/configs/bevformer/bevformer_base_occ_pretrained.py)       | 0.285        |               |  15.8GB | ~3    |
-| SparseBEV                                  | ResNet50   | [config](https://github.com/saiprakash-c/SparseOcc/blob/main/configs/r50_nuimg_704x256_8f_openocc.py) | 0.3312       | [weights](https://github.com/saiprakash-c/SparseOcc/blob/60d2c5ee930eeb1c3eb0f778b9fdd951727a88f4/configs/r50_nuimg_704x256_8f_openocc.py) | 20.7GB | ~17 |
+| SparseBEV                                  | ResNet50   | [config](https://github.com/saiprakash-c/SparseOcc/blob/main/configs/r50_nuimg_704x256_8f_openocc.py) | 0.3312       | [weights](https://github.com/saiprakash-c/SparseOcc/blob/c2c5deb57645ed1b6a732791cc332f79ae9b96b3/checkpoints/sparseocc_r50_nuimg_704x256_8f_1e_finetune.pth) | 20.7GB | ~17 |
 | SparseBEV | FlashInternImage-T |  In progress |   |   |        | |
 
 <div align="left">
